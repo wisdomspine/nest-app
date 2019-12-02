@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Some genius</title>
+    <style>
+        @media screen and (orientation: landscape) {
+            body{
+                background-color: cyan;
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio id="player" controls></audio>
+
+    <button id="trigger">Trigger</button>
+
+    <script>
+        const player = document.querySelector("#player");
+        const trigger = document.querySelector("#trigger");
+
+        const handleSuccess = (stream) => {
+            const context = new AudioContext();
+            const source = context.createMediaStreamSource(stream);
+            const processor = context.createScriptProcessor(1024, 1, 1);
+
+            source.connect(processor);
+            processor.connect(context.destination);
+
+            processor.onaudioprocess = (out) => {
+                console.log(out);
+            }
+        }
+        const handleMic= ()=> {
+            let device ={};
+            navigator.mediaDevices.enumerateDevices().then(devices => {
+                device = devices.find((dev) => dev.kind =='audioinput');
+            })
+            navigator.mediaDevices.getUserMedia({audio: {deviceId: device.dev}}).then(handleSuccess)
+
+        }
+
+        trigger.addEventListener("click", handleMic);
+    </script>
+</body>
+</html>
