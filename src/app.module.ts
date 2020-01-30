@@ -1,4 +1,4 @@
-import { Module, MiddlewareConsumer, RequestMethod, Global } from '@nestjs/common';
+import { Module, MiddlewareConsumer, RequestMethod, Global, CacheModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
@@ -13,15 +13,34 @@ import { CatValidatorPipe } from './common/pipes/cat-validator.pipe';
 import { RolesGuard } from './common/guards/roles.guard';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { PhotoModule } from './photo/photo.module';
+import { MulterModule } from "@nestjs/platform-express";
+import { MulterConfigService } from './multer-config.service';
+import { ConfigModule } from './config/config.module';
 
 @Global()
 @Module({
-  imports: [CatsModule, DatabaseModule, AuthModule, UserModule],
+  imports: [
+    CatsModule,
+    DatabaseModule,
+    AuthModule,
+    UserModule,
+    TypeOrmModule.forRoot(),
+    PhotoModule,
+    // MulterModule.registerAsync({
+    //   useClass: MulterConfigService
+    // }),
+    CacheModule.register({
+      ttl: 30
+    }),
+    ConfigModule
+  ],
   controllers: [AppController],
   providers: [AppService, LoggerService,
     {provide: APP_FILTER, useClass:AllExceptionsFilter}
   ],
-  exports: [LoggerService]
+  exports: [LoggerService, MulterModule]
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer){
