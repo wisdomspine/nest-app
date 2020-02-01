@@ -6,17 +6,12 @@ import { DatabaseModule } from './database/database.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { CatsController } from './cats/cats.controller';
 import { LoggerService } from './common/logger/logger.service';
-import { APP_FILTER, APP_PIPE, APP_GUARD } from '@nestjs/core';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
-import { CatValidatorPipe } from './common/pipes/cat-validator.pipe';
-import { RolesGuard } from './common/guards/roles.guard';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { PhotoModule } from './photo/photo.module';
-import { MulterModule } from "@nestjs/platform-express";
-import { MulterConfigService } from './multer-config.service';
 import { ConfigModule } from './config/config.module';
 
 @Global()
@@ -28,19 +23,13 @@ import { ConfigModule } from './config/config.module';
     UserModule,
     TypeOrmModule.forRoot(),
     PhotoModule,
-    // MulterModule.registerAsync({
-    //   useClass: MulterConfigService
-    // }),
-    CacheModule.register({
-      ttl: 30
-    }),
     ConfigModule
   ],
   controllers: [AppController],
   providers: [AppService, LoggerService,
     {provide: APP_FILTER, useClass:AllExceptionsFilter}
   ],
-  exports: [LoggerService, MulterModule]
+  exports: [LoggerService]
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer){

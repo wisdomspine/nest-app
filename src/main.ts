@@ -1,17 +1,10 @@
 declare const module: any;
 
-import { NestFactory, HttpAdapterHost } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { logger } from './common/middleware/logger.function.middleware';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
-import { LoggerService } from './common/logger/logger.service';
-import { All, HttpStatus } from '@nestjs/common';
-import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
-import { CatValidatorPipe } from './common/pipes/cat-validator.pipe';
+import { HttpStatus } from '@nestjs/common';
 import * as express from "express";
 import * as helmet from "helmet";
-import * as cookieParser from "cookie-parser";
-import * as csurf from "csurf";
 import * as rateLimit from "express-rate-limit";
 import * as compression from "compression";
 import { NestExpressApplication } from '@nestjs/platform-express';
