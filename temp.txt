@@ -1,0 +1,12 @@
+  {
+    "id": 5,
+    "name": "Image",
+    "description": "This is My image",
+    "views": 0,
+    "isPublished": true,
+    "filename": "a4c4b7893b382541ca9aeeb18063e3f8",
+    "authorId": 1,
+    "author": {
+      "id": 1,
+      "author": "Sabo Priest"
+    }

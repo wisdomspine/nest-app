@@ -23,7 +23,7 @@ async function bootstrap() {
       message: "To many requests"
     },
     windowMs: 1 * 60 * 1000,
-    max: 3
+    max: 60
   }))
   app.use(compression({
     level: 5

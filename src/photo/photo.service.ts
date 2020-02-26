@@ -1,15 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
+import { Photo } from './photo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Photo } from "./photo.entity";
 
 @Injectable()
-export class PhotoService {
-    constructor(@InjectRepository(Photo) private readonly photoRepository: Repository<Photo>){
-
-    }
-
-    findAll(): Promise<Photo[]>{
-        return this.photoRepository.find();
+export class PhotoService extends TypeOrmCrudService<Photo>{
+    constructor(@InjectRepository(Photo) repo){
+        super(repo);
     }
 }

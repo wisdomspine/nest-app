@@ -13,6 +13,7 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { PhotoModule } from './photo/photo.module';
 import { ConfigModule } from './config/config.module';
+import { AuthorModule } from './author/author.module';
 
 @Global()
 @Module({
@@ -23,7 +24,8 @@ import { ConfigModule } from './config/config.module';
     UserModule,
     TypeOrmModule.forRoot(),
     PhotoModule,
-    ConfigModule
+    ConfigModule,
+    AuthorModule
   ],
   controllers: [AppController],
   providers: [AppService, LoggerService,
